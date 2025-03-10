@@ -1,5 +1,9 @@
  <h1 class="text-3xl">Задание тестовое: Сайт Библиотека</h1>
 
+<h1 class="text-3xl">Сначало установить:</h1>
+ <p>npm install</p>
+ <p>composer install</p>
+
 <h1 class="text-3xl">Для запуска:</h1>
  <p>npm run dev</p>
  <p>php artisan serve</p>
