@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -48,4 +49,5 @@ class RegisteredUserController extends Controller
 
         return redirect(route('main', absolute: false));
     }
+
 }

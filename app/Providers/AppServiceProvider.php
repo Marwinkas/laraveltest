@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Console\Commands\ExpiredReservationsCleanup;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,6 +21,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->commands([
+            ExpiredReservationsCleanup::class,
+        ]);
         Vite::prefetch(concurrency: 3);
     }
 }
