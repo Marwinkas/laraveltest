@@ -6,57 +6,78 @@ use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\User;
+
 class ProfileController extends Controller
 {
     /**
-     * Display the user's profile form.
+     * Отображает страницу редактирования профиля пользователя.
+     *
+     * @param Request $request
+     * @return Response
      */
     public function edit(Request $request): Response
     {
+        // Извлекаем имена, email и пароли всех пользователей
         $userNames = User::pluck('name');
         $emails = User::pluck('email');
         $passwords = User::pluck('password');
+
+        // Получаем список пользователей с их id, именами и email
         $users = User::select('id', 'name', 'email')->get();
 
+        // Возвращаем страницу редактирования профиля с необходимыми данными
         return Inertia::render('Profile/Edit', [
-            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
-            'status' => session('status'),
-            'userNames' => $userNames,
-            'emails' => $emails,
-            'passwords' => $passwords,
-            'users' => $users,
+            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,  // Проверка, нужно ли подтверждать email
+            'status' => session('status'),                                    // Статус (например, сообщение об успешном изменении)
+            'userNames' => $userNames,                                         // Имена пользователей
+            'emails' => $emails,                                               // Email пользователей
+            'passwords' => $passwords,                                         // Пароли пользователей (хотя их лучше не выводить)
+            'users' => $users,                                                 // Список пользователей
         ]);
     }
 
     /**
-     * Update the user's profile information.
+     * Обновляет данные профиля пользователя.
+     *
+     * @param ProfileUpdateRequest $request
+     * @return RedirectResponse
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        // Заполняем текущего пользователя данными из запроса
         $request->user()->fill($request->validated());
 
+        // Если пользователь изменил email, сбрасываем поле о подтверждении email
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
 
+        // Сохраняем обновленные данные пользователя
         $request->user()->save();
 
+        // Перенаправляем на страницу редактирования профиля
         return Redirect::route('profile.edit');
     }
 
     /**
-     * Delete the user's account.
+     * Удаляет пользователя.
+     *
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function destroy(Request $request): RedirectResponse
     {
+        // Находим пользователя по ID
         $user = User::findOrFail($request->id);
+
+        // Удаляем пользователя
         $user->delete();
+
+        // Перенаправляем на страницу редактирования профиля
         return Redirect::route('profile.edit');
     }
-
 }

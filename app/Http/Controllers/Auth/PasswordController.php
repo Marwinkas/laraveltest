@@ -26,13 +26,5 @@ class PasswordController extends Controller
 
         return back();
     }
-    public function update2(Request $request): RedirectResponse
-    {
-        $user = User::findOrFail($request->id);
-        $user->update([
-            'password' => Hash::make($request->password),
-        ]);
 
-        return back();
-    }
 }

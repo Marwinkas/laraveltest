@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable();
             $table->string('title');
             $table->string('author');
+            $table->string('link');
             $table->string('genre')->nullable();
             $table->string('publisher')->nullable();
             $table->enum('status', ['available', 'reserved', 'issued'])->default('available');

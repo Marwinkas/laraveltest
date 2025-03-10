@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('book_id')->constrained()->onDelete('cascade');
             $table->timestamp('reserved_at')->useCurrent();
             $table->timestamp('expires_at')->nullable();
-            // Статус бронирования: active, cancelled, completed
             $table->enum('status', ['active', 'cancelled', 'completed'])->default('active');
             $table->timestamps();
         });

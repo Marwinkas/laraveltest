@@ -45,15 +45,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-        // Связь с бронированиями
-        public function reservations()
-        {
-            return $this->hasMany(related: Reservation::class);
-        }
+    // Связь с бронированиями
+    public function reservations()
+    {
+        return $this->hasMany(related: Reservation::class);
+    }
 
-        // Связь с комментариями
-        public function comments()
-        {
-            return $this->hasMany(Comment::class);
-        }
+    // Связь с комментариями
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }
