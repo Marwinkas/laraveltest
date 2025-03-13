@@ -50,11 +50,16 @@ onMounted(() => {
   <!-- Заголовок компонента -->
   <Header/>
 
-  <h1 class="text-3xl">Сказали на дизайн не смотрят</h1>
-  <h1 class="text-3xl">Для очищение брони на линукс при помощи cron, а через консоль: php artisan reservations:cleanup</h1>
-  <h1 class="text-3xl">Для админа /admin и роль admin</h1>
-  <h1 class="text-3xl">Для библиотекаря /library и роль librarian</h1>
-
+  <h1 class="text-2xl">Я в последний момент начал менять название роутам, а в VUE не поменял, поэтому не работало комментарии и смена пользователя</h1>
+  <h1 class="text-2xl">Для очищение просроченных броней: php artisan reservations:cleanup</h1>
+  <h1 class="text-2xl">Для админа и библиотекаря добавил сверху кнопки</h1>
+  <h1 class="text-2xl">Для библиотекаря librarian@mail.ru пароль: librarian1234</h1>
+  <h1 class="text-2xl">Для админа admin@mail.ru пароль: admin1234</h1>
+  <h1 class="text-2xl">Для юзера user@mail.ru пароль: user1234</h1>
+  <h1 class="text-2xl">Для того, чтобы книги и пользователи появились есть сидеры</h1>
+  <h1 class="text-2xl">Теперь есть список в профиле для снятия брони и на странице книги</h1>
+  <h1 class="text-2xl">Поиск починил</h1>
+  <h1 class="text-2xl">Простите, что прошлый раз плохо проверил</h1>
   <!-- Список книг с оберткой для изображений и текста -->
   <ul class="flex gap-4 ml-16 mt-16 mr-16 flex-wrap">
     <!-- Перебор списка книг и отображение каждой -->
@@ -70,7 +75,7 @@ onMounted(() => {
             alt="Book Image"
             ref="imageRefs"
             @load="updateWidth(book.id)"
-            :data-id="book.id" 
+            :data-id="book.id"
           />
 
           <!-- Заголовок книги (название) с шириной, привязанной к ширине изображения -->

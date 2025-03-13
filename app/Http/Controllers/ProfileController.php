@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Book;
+use App\Models\Reservation;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -10,6 +12,7 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
@@ -25,10 +28,11 @@ class ProfileController extends Controller
         $userNames = User::pluck('name');
         $emails = User::pluck('email');
         $passwords = User::pluck('password');
-
+        $user = Auth::user();
         // Получаем список пользователей с их id, именами и email
         $users = User::select('id', 'name', 'email')->get();
-
+        $books = Reservation::where('user_id', $user->id)->pluck('book_id');
+        $books = Book::whereIn('id', $books)->where('status', 'reserved')->get();
         // Возвращаем страницу редактирования профиля с необходимыми данными
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,  // Проверка, нужно ли подтверждать email
@@ -36,7 +40,8 @@ class ProfileController extends Controller
             'userNames' => $userNames,                                         // Имена пользователей
             'emails' => $emails,                                               // Email пользователей
             'passwords' => $passwords,                                         // Пароли пользователей (хотя их лучше не выводить)
-            'users' => $users,                                                 // Список пользователей
+            'users' => $users,
+            'books' => $books,                                                // Список пользователей
         ]);
     }
 
