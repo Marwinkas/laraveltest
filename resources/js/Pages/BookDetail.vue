@@ -36,7 +36,7 @@ const submitComment = () => {
   if (!newComment.value.trim()) return;
 
   // Отправка запроса на сервер для добавления комментария
-  router.post('/comments', { book_id: props.book.id, content: newComment.value }, {
+  router.post('/comment', { book_id: props.book.id, content: newComment.value }, {
     onSuccess: () => {
       // Очистка поля ввода комментария после успешной отправки
       newComment.value = '';

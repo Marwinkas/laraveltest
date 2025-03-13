@@ -26,7 +26,7 @@ const handleDeleteUser = (userId: number) => {
 // Функция для смены пароля пользователя
 const handleChangePassword = (userId: number) => {
     if (inputValues.value[userId] && confirm(`Поменять пароль на ${inputValues.value[userId]}?`)) {
-        router.put(route('password.update2'), {
+        router.put(route('admin.password.update'), {
             password: inputValues.value[userId],
             id: userId,
             preserveScroll: true,

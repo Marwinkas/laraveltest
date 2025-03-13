@@ -29,14 +29,14 @@ class MainController extends Controller
         if ($query) {
             // Проверяем, если тип фильтрации допустим ('author', 'genre', 'title')
             if (in_array($type, ['author', 'genre', 'title'])) {
-                // Фильтруем по указанному полю (author, genre или title)
-                $booksQuery->where($type, 'LIKE', "%{$query}%");
+                // Фильтруем по указанному полю (используем ILIKE для PostgreSQL)
+                $booksQuery->where($type, 'ILIKE', "%{$query}%");
             } else {
                 // Если тип фильтрации не указан или не подходит, фильтруем по всем трем полям
                 $booksQuery->where(function ($q) use ($query) {
-                    $q->where('author', 'LIKE', "%{$query}%")
-                        ->orWhere('genre', 'LIKE', "%{$query}%")
-                        ->orWhere('title', 'LIKE', "%{$query}%");
+                    $q->where('author', 'ILIKE', "%{$query}%")
+                        ->orWhere('genre', 'ILIKE', "%{$query}%")
+                        ->orWhere('title', 'ILIKE', "%{$query}%");
                 });
             }
         }
@@ -50,4 +50,5 @@ class MainController extends Controller
             'filters' => $request->only('query', 'type') // Фильтры поиска (query и type)
         ]);
     }
+
 }

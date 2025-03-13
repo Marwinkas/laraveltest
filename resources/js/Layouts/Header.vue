@@ -10,13 +10,13 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 
 // Переменные для поиска
 const searchQuery = ref('');
-const searchCategory = ref('author');
+const searchCategory = ref('title');
 
 // Функция обработки поиска
 const performSearch = () => {
     Inertia.get(
         route('main'),
-        { query: searchQuery.value, category: searchCategory.value },
+        { query: searchQuery.value, type: searchCategory.value },
         { preserveState: true, replace: true }
     );
 };
@@ -31,11 +31,11 @@ const performSearch = () => {
 
         <!-- Поле поиска книг -->
         <div class="flex items-center gap-2 w-1/2">
-            <select v-model="searchCategory" class="p-2 rounded text-black w-32">
-                <option value="author">Автор</option>
-                <option value="genre">Жанр</option>
-                <option value="title">Название</option>
-            </select>
+            <select v-model="searchCategory" class="p-2 rounded text-black w-64">
+                    <option value="title">Название</option>
+                    <option value="author">Автор</option>
+                    <option value="genre">Жанр</option>
+                </select>
             <input type="text" v-model="searchQuery" placeholder="Поиск книг..." class="p-2 w-full rounded text-black" />
             <button @click="performSearch" class="p-2 bg-blue-500 text-white rounded hover:bg-blue-700">
                 Найти
@@ -44,6 +44,8 @@ const performSearch = () => {
 
         <!-- Панель пользователя -->
         <div v-if="$page.props.auth.user" class="hidden sm:flex items-center">
+            <NavLink v-if="$page.props.auth.user.role === 'admin'" href="/admin">Админ-панель</NavLink>
+            <NavLink v-if="$page.props.auth.user.role === 'librarian' || $page.props.auth.user.role === 'admin'" href="/library">Библиотека-панель</NavLink>
             <Dropdown align="right" width="48">
                 <template #trigger>
                     <button class="flex items-center px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-300">
@@ -58,6 +60,7 @@ const performSearch = () => {
                     <DropdownLink :href="route('logout')" method="post" as="button">Выйти</DropdownLink>
                 </template>
             </Dropdown>
+
         </div>
 
         <!-- Кнопка авторизации и регистрации аккаунта -->
